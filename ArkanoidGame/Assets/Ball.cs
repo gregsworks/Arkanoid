@@ -19,24 +19,25 @@ public class Ball : MonoBehaviour
         rb.simulated = false;
     }
 
-    // Update is called once per frame
+
     private void Update()
     {
         if (!hasStarted)
         {
             LockBallToPaddle();
-            LaunchOnMouseClick();
+            LaunchToPaddle();
         }
     }
     
 
-    private void LaunchOnMouseClick()
+    private void LaunchToPaddle()
     {
-          if (Input.GetMouseButtonDown(0));
+          if (Input.GetMouseButtonDown(0))
         {
             hasStarted = true;
             rb.simulated = true;
             GetComponent<Rigidbody2D>().velocity = new Vector2(xPush, yPush);
+            
         }
     }
 
@@ -44,5 +45,13 @@ public class Ball : MonoBehaviour
     {
         Vector2 paddlePos = new Vector2(paddle1.transform.position.x, paddle1.transform.position.y);
         transform.position = paddlePos + paddleToBallVector;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.transform.CompareTag("Block"))
+        {
+            Destroy(collision.gameObject);
+        }
     }
 }
