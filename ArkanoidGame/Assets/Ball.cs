@@ -11,6 +11,8 @@ public class Ball : MonoBehaviour
     [SerializeField] bool hasStarted = false;
     [SerializeField] Rigidbody2D rb;
     Vector2 paddleToBallVector;
+    [SerializeField] Transform explosion;
+    public GameManager GameManager;
 
     private void Start()
     {
@@ -51,7 +53,9 @@ public class Ball : MonoBehaviour
     {
         if (collision.transform.CompareTag("Block"))
         {
-            Destroy(collision.gameObject);
+            Transform newExplosion = Instantiate (explosion, collision.transform.position, collision.transform.rotation);
+            Destroy (newExplosion.gameObject, 2.5f);
+            Destroy (collision.gameObject);
         }
     }
 }
